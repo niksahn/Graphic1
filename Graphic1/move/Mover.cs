@@ -34,7 +34,7 @@ namespace Graphic1
 
        public double[,] rotate(double[,] points, int degree, double x0,double y0)
         {        
-            return getMatrix(points).Multiply(getMoveMatrix(x0,y0)).Multiply(getRotateMatrix(degree)).Multiply(getMoveMatrix(-x0, -y0)).ToArray();
+            return getMatrix(points).Multiply(getRotateMatrix(degree)).ToArray();
         }
     }
 }
