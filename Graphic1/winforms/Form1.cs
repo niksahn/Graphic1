@@ -7,10 +7,33 @@ namespace Graphic1
         {
             InitializeComponent();
             var graph = CreateGraphics();
-            figure = new Tank(new Converter(300,300), new PainterWinForms(graph), new Mover2d());
+            figure = new Tank(new Converter(400,400), new PainterWinForms(graph), new Mover2d());
+    
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
             figure.paint();
-           // figure.move(100,100);
-         //   graph.Clear(Color.White);
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            figure.move(2,2);
+            figure.paint();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+             CreateGraphics().Clear(Color.White);
+            figure.rotate(45);
+            figure.paint();          
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            CreateGraphics().Clear(Color.White);
+            figure.scale(5,3);
+            figure.paint();
         }
     }
 }

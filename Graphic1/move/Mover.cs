@@ -20,17 +20,21 @@ namespace Graphic1
 
          public double[,] move(double[,] points, double dx, double dy)
          {
-            return getMatrix(points).Multiply(getMoveMatrix(dx, dy)).AsArray();
+            var m = getMatrix(points);
+            var mm = getMoveMatrix(dx, dy);
+            var mmm = m.Multiply(mm);
+            var mmmm = mmm.ToArray();
+            return mmmm;
          }
 
         public double[,] scale(double[,] points, double kx, double ky)
         {
-            return  getMatrix(points).Multiply(getScaleMatrix(kx, ky)).AsArray();
+            return  getMatrix(points).Multiply(getScaleMatrix(kx, ky)).ToArray();
         }
 
-       public double[,] rotate(double[,] points, int degree)
+       public double[,] rotate(double[,] points, int degree, double x0,double y0)
         {        
-            return getMatrix(points).Multiply(getRotateMatrix(degree)).AsArray();
+            return getMatrix(points).Multiply(getMoveMatrix(x0,y0)).Multiply(getRotateMatrix(degree)).Multiply(getMoveMatrix(-x0, -y0)).ToArray();
         }
     }
 }

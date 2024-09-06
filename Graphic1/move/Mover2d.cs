@@ -11,7 +11,7 @@ namespace Graphic1
     {
         override protected Matrix<double> getMoveMatrix(double dx, double dy)
         {
-            return getMatrix(new double[,] { { 1.0, 0.0, 0.0 }, { 1.0, 1.0, 0.0 }, { dx, dy, 1.0 } });
+            return getMatrix(new double[,] { { 1.0, 0.0, 0.0 }, { 0.0, 1.0, 0.0 }, { dx, dy, 1.0 } });
         }
 
         override protected Matrix<double> getScaleMatrix(double kx, double ky)

@@ -9,7 +9,7 @@ namespace Graphic1
 {
     internal class Converter
     {
-        const double pointSize = 20.0;
+        const double pointSize = 40.0;
         public double x0 = 0;
         public double y0 = 0;
        
@@ -27,10 +27,8 @@ namespace Graphic1
             {
                 for (int j = 0; j < columns; j++)
                 {
-                    var centr = 0.0;
                     if (j == 0) 
                     { 
-                        centr = x0;
                         convertedPoints[i, j] = x0 + points[i, j] * pointSize;
                     }
                     else

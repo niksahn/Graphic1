@@ -8,7 +8,7 @@ namespace Graphic1
             var convertedCoordinates = converter.convertToWindow(points);
             for (int i = 0; i < matrix.GetLength(0) - 1; i++)
             {
-                for (int j = 0; j < matrix.GetLength(0) - 1 - i; j++)
+                for (int j = 0; j < matrix.GetLength(0); j++)
                 {
                     if (matrix[i, j] == 1) drawLine((int)convertedCoordinates[i, 0], (int)convertedCoordinates[i, 1], (int)convertedCoordinates[j, 0], (int)convertedCoordinates[j, 1]);
                 }

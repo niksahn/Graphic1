@@ -27,7 +27,7 @@
 
         public void rotate(int degree)
         {
-            points = mover.rotate(points, degree);
+            points = mover.rotate(points, degree, convert.x0,convert.y0);
         }
 
         public void paint()

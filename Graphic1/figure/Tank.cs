@@ -8,7 +8,7 @@ namespace Graphic1
 {
     internal class Tank : PaintableFigure
     {
-        protected override double[,] points { get; set; } = { { 4.0, 4.0, 1.0, }, { 4.0, -4.0, 1.0, }, { -4.0, -4.0, 1.0, }, { 4.0, 4.0, 1.0, }, { 0.0, 7.0, 1.0, } };
+        protected override double[,] points { get; set; } = { { 4.0, 4.0, 1.0, }, { 4.0, -4.0, 1.0, }, { -4.0, -4.0, 1.0, }, { -4.0, 4.0, 1.0, }, { 0.0, 7.0, 1.0, } };
         protected override int[,] matrix { get;} = { 
           //  0  1  2  3  4
             { 0, 1, 0, 1, 1 }, // 0
