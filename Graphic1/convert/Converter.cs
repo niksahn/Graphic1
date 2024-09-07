@@ -9,7 +9,7 @@ namespace Graphic1
 {
     internal class Converter
     {
-        const double pointSize = 40.0;
+        const double pointSize = 10.0;
         public double x0 = 0;
         public double y0 = 0;
        

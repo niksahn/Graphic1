@@ -32,9 +32,21 @@ namespace Graphic1
             return  getMatrix(points).Multiply(getScaleMatrix(kx, ky)).ToArray();
         }
 
-       public double[,] rotate(double[,] points, int degree, double x0,double y0)
-        {        
-            return getMatrix(points).Multiply(getRotateMatrix(degree)).ToArray();
+       public double[,] rotate(double[,] points, int degree, double dx0,double dy0)
+       {
+            var smesh = new double[] { -dx0, -dy0 };
+            if (smesh[0] != 0 || smesh[1] != 0)
+            {
+                return getMatrix(points)
+                                .Multiply(getMoveMatrix(smesh[0], smesh[1]))
+                                .Multiply(getRotateMatrix(degree))
+                                .Multiply(getMoveMatrix(-smesh[0], -smesh[1]))
+                                .ToArray();
+            }
+            else
+            {
+                return getMatrix(points).Multiply(getRotateMatrix(degree)).ToArray();
+            }
         }
     }
 }
