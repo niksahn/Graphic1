@@ -9,6 +9,10 @@ namespace Graphic1
 {
     internal abstract class Mover
     {
+        double DegreesToRadians(double degrees)
+        {
+            return degrees * Math.PI / 180.0;
+        }
         protected Matrix<double> getMatrix(double[,] matrix)
         {
             return Matrix<double>.Build.DenseOfArray(matrix);
@@ -16,7 +20,7 @@ namespace Graphic1
 
         abstract protected Matrix<double> getMoveMatrix(double dx, double dy);
         abstract protected Matrix<double> getScaleMatrix(double kx, double ky);
-        abstract protected Matrix<double> getRotateMatrix(int degree);
+        abstract protected Matrix<double> getRotateMatrix(double angle);
 
          public double[,] move(double[,] points, double dx, double dy)
          {
@@ -29,23 +33,24 @@ namespace Graphic1
 
         public double[,] scale(double[,] points, double kx, double ky)
         {
-            return  getMatrix(points).Multiply(getScaleMatrix(kx, ky)).ToArray();
+            return getScaleMatrix(kx, ky).Multiply(getMatrix(points).Transpose()).Transpose().ToArray();
         }
 
        public double[,] rotate(double[,] points, int degree, double dx0,double dy0)
        {
-            var smesh = new double[] { -dx0, -dy0 };
+            var smesh = new double[] { -dx0, dy0 };
+            var angle = DegreesToRadians(degree);
             if (smesh[0] != 0 || smesh[1] != 0)
             {
                 return getMatrix(points)
                                 .Multiply(getMoveMatrix(smesh[0], smesh[1]))
-                                .Multiply(getRotateMatrix(degree))
+                                .Multiply(getRotateMatrix(angle))
                                 .Multiply(getMoveMatrix(-smesh[0], -smesh[1]))
                                 .ToArray();
             }
             else
             {
-                return getMatrix(points).Multiply(getRotateMatrix(degree)).ToArray();
+                return getMatrix(points).Multiply(getRotateMatrix(angle)).ToArray();
             }
         }
     }

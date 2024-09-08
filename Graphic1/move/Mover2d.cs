@@ -16,10 +16,10 @@ namespace Graphic1
 
         override protected Matrix<double> getScaleMatrix(double kx, double ky)
         {
-            return getMatrix(new double[,] { { kx, 0.0, 0.0 }, { 1.0, ky, 0.0 }, { 0.0, 0.0, 1.0 } });
+            return getMatrix(new double[,] { { kx, 0.0, 0.0 }, { 0.0, ky, 0.0 }, { 0.0, 0.0, 1.0 } });
         }
 
-        override protected Matrix<double> getRotateMatrix(int degree)
+        override protected Matrix<double> getRotateMatrix(double degree)
         {
             return getMatrix(new double[,] { { Math.Cos(degree), -Math.Sin(degree), 0.0 }, { Math.Sin(degree), Math.Cos(degree), 0.0 }, { 0.0, 0.0, 1.0 } });
         }

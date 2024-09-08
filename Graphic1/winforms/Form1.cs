@@ -25,14 +25,14 @@ namespace Graphic1
         private void button3_Click(object sender, EventArgs e)
         {
              CreateGraphics().Clear(Color.White);
-            figure.rotate(45);
+            figure.rotate(10);
             figure.paint();          
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
             CreateGraphics().Clear(Color.White);
-            figure.scale(5,3);
+            figure.scale(2,2);
             figure.paint();
         }
     }
