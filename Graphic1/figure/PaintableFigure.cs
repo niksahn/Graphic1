@@ -25,7 +25,7 @@
 
         public void scale(double kx, double ky)
         {
-            points = mover.scale(points, kx, ky);
+            points = mover.scale(points, kx, ky, center[0], center[1]);
         }
 
         public void rotate(int degree)
@@ -36,6 +36,8 @@
         public void paint()
         {
             painter.paint(points,matrix, convert);
+            var coords = convert.convertToWindow(points);
+            
         }
     }
 }

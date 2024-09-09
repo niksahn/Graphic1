@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -31,14 +32,23 @@ namespace Graphic1
             return mmmm;
          }
 
-        public double[,] scale(double[,] points, double kx, double ky)
+        public double[,] scale(double[,] points, double kx, double ky, double dx0, double dy0)
         {
+            var smesh = new double[] { -dx0, -dy0 };
+            if (smesh[0] != 0 || smesh[1] != 0) {
+                return 
+                   getMatrix(points)
+                   .Multiply(getMoveMatrix(smesh[0], smesh[1]))
+                    .Multiply(getScaleMatrix(kx, ky))
+                   .Multiply(getMoveMatrix(-smesh[0], -smesh[1]))
+                    .ToArray();
+            }
             return getScaleMatrix(kx, ky).Multiply(getMatrix(points).Transpose()).Transpose().ToArray();
         }
 
        public double[,] rotate(double[,] points, int degree, double dx0,double dy0)
        {
-            var smesh = new double[] { -dx0, dy0 };
+            var smesh = new double[] { -dx0, -dy0 };
             var angle = DegreesToRadians(degree);
             if (smesh[0] != 0 || smesh[1] != 0)
             {
