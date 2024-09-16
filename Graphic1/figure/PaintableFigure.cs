@@ -8,7 +8,7 @@
         private Converter convert { get; set; }
         private Mover mover { get; set; }
 
-        private double[] center =  { 0.0, 0.0 };
+        private double[] center =  { 0.0, 0.0, 0.0 };
 
         protected PaintableFigure(Converter _convert, Painter _painter, Mover _mover)
         {
@@ -17,20 +17,30 @@
             mover = _mover;
         }
 
-        public void move(double dx, double dy)
+        public void move(double dx, double dy, double dz)
         {
-            points = mover.move(points, dx, dy);
+            points = mover.move(points, dx, dy, dz);
             center = new double[] { center[0] + dx, center[1] + dy };
         }
 
-        public void scale(double kx, double ky)
+        public void scale(double kx, double ky, double kz)
         {
-            points = mover.scale(points, kx, ky, center[0], center[1]);
+            points = mover.scale(points, kx, ky, kz, center[0], center[1], center[2]);
         }
 
-        public void rotate(int degree)
+        public void rotateZ(int degree)
         {
-            points = mover.rotate(points, degree, center[0], center[1]);
+            points = mover.rotateZ(points, degree, center[0], center[1], center[2]);
+        }
+
+        public void rotateY(int degree)
+        {
+            points = mover.rotateY(points, degree, center[0], center[1], center[2]);
+        }
+
+        public void rotateX(int degree)
+        {
+            points = mover.rotateX(points, degree, center[0], center[1], center[2]);
         }
 
         public void paint()

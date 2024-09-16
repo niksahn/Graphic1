@@ -12,7 +12,6 @@ namespace Graphic1
             var graph = CreateGraphics();
             figure = new Tank(new Converter(400, 400), new PainterWinForms(graph), new Mover2d());
             this.Size = new System.Drawing.Size(1408, 683);
-            radioButton1.Checked = true;
         }
 
         public void ClearPoints()
@@ -32,74 +31,85 @@ namespace Graphic1
         private void button2_Click(object sender, EventArgs e)
         {
             CreateGraphics().Clear(Color.White);
-            figure.move(0, 2);
+            figure.move(0, 2, 0);
             figure.paint();
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
             CreateGraphics().Clear(Color.White);
-            figure.rotate(-10);
+            figure.rotateZ(-10);
             figure.paint();
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
             CreateGraphics().Clear(Color.White);
-            figure.scale(2, 2);
+            figure.scale(2, 2, 2);
             figure.paint();
         }
 
         private void RotateRight_Click(object sender, EventArgs e)
         {
             CreateGraphics().Clear(Color.White);
-            figure.rotate(10);
+            figure.rotateZ(10);
             figure.paint();
         }
 
         private void MoveDown_Click(object sender, EventArgs e)
         {
             CreateGraphics().Clear(Color.White);
-            figure.move(0, -2);
+            figure.move(0, -2, 0);
             figure.paint();
         }
 
         private void MoveRight_Click(object sender, EventArgs e)
         {
             CreateGraphics().Clear(Color.White);
-            figure.move(2, 0);
+            figure.move(2, 0, 0);
             figure.paint();
         }
 
         private void MoveLeft_Click(object sender, EventArgs e)
         {
             CreateGraphics().Clear(Color.White);
-            figure.move(-2, 0);
+            figure.move(-2, 0, 0);
             figure.paint();
         }
 
         private void SizeMinus_Click(object sender, EventArgs e)
         {
             CreateGraphics().Clear(Color.White);
-            figure.scale(0.5, 0.5);
+            figure.scale(0.5, 0.5, 0.5);
             figure.paint();
         }
 
-        private void settingsButton_Click(object sender, EventArgs e)
+        private void button5_Click(object sender, EventArgs e)
         {
-            if (settingsOpened) this.Size = new Size(1408, 683);
-            else this.Size = new Size(1595, 683);
-            settingsOpened = !settingsOpened;
+            CreateGraphics().Clear(Color.White);
+            figure.rotateY(10);
+            figure.paint();
         }
 
-        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        private void button6_Click(object sender, EventArgs e)
         {
-            
+            CreateGraphics().Clear(Color.White);
+            figure.rotateY(-10);
+            figure.paint();
         }
 
-        private void radioButton2_CheckedChanged(object sender, EventArgs e)
+        private void XRotateLeft_Click(object sender, EventArgs e)
         {
+            CreateGraphics().Clear(Color.White);
+            figure.rotateX(10);
+            figure.paint();
+        }
 
+        private void button2_Click_1(object sender, EventArgs e)
+        {
+            CreateGraphics().Clear(Color.White);
+            figure.rotateX(-10);
+            figure.paint();
         }
     }
 }
