@@ -20,7 +20,7 @@
         public void move(double dx, double dy, double dz)
         {
             points = mover.move(points, dx, dy, dz);
-            center = new double[] { center[0] + dx, center[1] + dy };
+            center = new double[] { center[0] + dx, center[1] + dy, center[2] + dz };
         }
 
         public void scale(double kx, double ky, double kz)
