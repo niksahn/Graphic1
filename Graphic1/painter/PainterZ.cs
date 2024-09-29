@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -59,42 +60,6 @@ namespace Graphic1
         }
 
 
-        static double FindHeight(double[,] array)
-        {
-            // Предполагаем, что хотя бы одна строка существует
-            double max = Double.MinValue;
-            double min = Double.MaxValue;
-
-            for (int i = 1; i < array.GetLength(0); i++)
-            {
-                if (array[i, 0] > max)
-                {
-                    max = array[i, 0];
-                }
-                if (array[i, 0] < min)
-                {
-                    min = array[i, 1];
-                }
-            }
-
-            return max - min;
-        }
-
-        static double FindWidth(double[,] array)
-        {
-            // Предполагаем, что хотя бы одна строка существует
-            double max = Double.MinValue;
-            for (int i = 1; i < array.GetLength(0); i++)
-            {
-                if (array[i, 1] > max)
-                {
-                    max = array[i, 1];
-                }
-              
-            }
-
-            return max;
-        }
         static double FindMaxValueInSecondColumn(double[,] array)
         {
             // Предполагаем, что хотя бы одна строка существует
@@ -280,12 +245,14 @@ public static class TriangleRasterizer
                 var v1 = ((int)points[p.V1, 0], (int)points[p.V1, 1], (int)points[p.V1, 2]);
                 var v2 = ((int)points[p.V2, 0], (int)points[p.V2, 1], (int)points[p.V2, 2]);
                 var v3 = ((int)points[p.V3, 0], (int)points[p.V3, 1], (int)points[p.V3, 2]);
-                pixels.AddRange(Rasterize(v1.Item1, v1.Item2, v1.Item3, v2.Item1, v2.Item2, v2.Item3, v3.Item1, v3.Item2, v3.Item3, p.Color));
+                pixels.AddRange(Rasterize(v1.Item1, v1.Item2, v1.Item3, v2.Item1, v2.Item2, v2.Item3, v3.Item1, v3.Item2, v3.Item3,p.Color));
             }
                catch(Exception ex) { }
        }
        return pixels;
     }
+
+
     public static List<(int x, int y, int z, Color c)> Rasterize(int x0, int y0, int z0, int x1, int y1, int z1, int x2, int y2, int z2, Color color0)
     {
         var points = new List<(int x, int y, int z, Color)>();
@@ -358,6 +325,10 @@ public static class TriangleRasterizer
     }
 
     private static void Swap(ref float a, ref float b)
+    {
+        (a, b) = (b, a);
+    }
+    private static void Swap(ref Color a, ref Color b)
     {
         (a, b) = (b, a);
     }
