@@ -26,13 +26,13 @@ namespace Graphic1
         abstract protected Matrix<double> getRotateMatrixX(double angle);
 
         public double[,] move(double[,] points, double dx, double dy, double dz)
-         {
+        {
             var m = getMatrix(points);
             var mm = getMoveMatrix(dx, dy, dz);
             var mmm = m.Multiply(mm);
             var mmmm = mmm.ToArray();
             return mmmm;
-         }
+        }
 
         public double[,] scale(double[,] points, double kx, double ky, double kz, double dx0, double dy0, double dz0)
         {
@@ -40,9 +40,9 @@ namespace Graphic1
             if (smesh[0] != 0 || smesh[1] != 0) {
                 return 
                    getMatrix(points)
-                   .Multiply(getMoveMatrix(smesh[0], smesh[1], smesh[2]))
+                    .Multiply(getMoveMatrix(smesh[0], smesh[1], smesh[2]))
                     .Multiply(getScaleMatrix(kx, ky, kz))
-                   .Multiply(getMoveMatrix(-smesh[0], -smesh[1], -smesh[2]))
+                    .Multiply(getMoveMatrix(-smesh[0], -smesh[1], -smesh[2]))
                     .ToArray();
             }
             return getScaleMatrix(kx, ky, kz).Multiply(getMatrix(points).Transpose()).Transpose().ToArray();

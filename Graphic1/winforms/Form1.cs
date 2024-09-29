@@ -1,3 +1,5 @@
+using Graphic1.painter;
+
 namespace Graphic1
 {
     public partial class Form1 : Form
@@ -10,7 +12,7 @@ namespace Graphic1
         {
             InitializeComponent();
             var graph = CreateGraphics();
-            figure = new Tank(new Converter(400, 400), new PainterWinForms(graph), new Mover2d());
+            figure = new Tank(new Converter(400, 400), new PainterZ(graph), new Mover2d());
             this.Size = new System.Drawing.Size(1408, 683);
         }
 
@@ -110,6 +112,24 @@ namespace Graphic1
             CreateGraphics().Clear(Color.White);
             figure.rotateX(-10);
             figure.paint();
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            CreateGraphics().Clear(Color.White);
+            figure.paint(PainterProect.Proect.XOZ);
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            CreateGraphics().Clear(Color.White);
+            figure.paint(PainterProect.Proect.XOY);
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            CreateGraphics().Clear(Color.White);
+            figure.paint(PainterProect.Proect.YOZ);
         }
     }
 }
