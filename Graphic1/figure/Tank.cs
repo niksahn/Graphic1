@@ -130,8 +130,8 @@ namespace Graphic1
 
             //Bottom
 
-              new Poligon(6, 7, 27, Color.DarkGreen),
-              new Poligon(6, 27, 26, Color.DarkGreen),
+              new Poligon(6, 7, 27, Color.White),
+              new Poligon(6, 27, 26, Color.White),
 
               new Poligon(6, 9, 26, Color.Green),
               new Poligon(29, 9, 26, Color.Green),
@@ -150,8 +150,8 @@ namespace Graphic1
               new Poligon(1, 2, 22, Color.Green),
               new Poligon(22, 21, 1, Color.Green),
 
-              new Poligon(10, 14, 24, Color.Green),
-              new Poligon(10, 20, 24, Color.Green),
+              new Poligon(10, 14, 34, Color.GreenYellow),
+              new Poligon(10, 20, 34, Color.GreenYellow),
 
               new Poligon(18, 17, 37, Color.Brown),
               new Poligon(18, 38, 37, Color.Brown),
@@ -164,7 +164,7 @@ namespace Graphic1
               new Poligon(2, 3, 23, Color.Green),
               new Poligon(23, 22, 2, Color.Green),
 
-              new Poligon(17, 16, 36, Color.Green),
+              new Poligon(17, 16, 36, Color.Brown),
               new Poligon(36, 37, 17, Color.Green),
 
                new Poligon(18, 19, 39, Color.Green),

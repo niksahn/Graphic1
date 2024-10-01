@@ -118,138 +118,75 @@ namespace Graphic1
         {
             if (z < zBuffer[x, y])
             {
+               
                 zBuffer[x, y] = z;
                 frameBuffer[x, y] = c;
             }
         }
     }
-
-    //internal class Z
-    //{
-    //    public static List<(int, int, int)> rasterize(double[,] points, int[,] matrix) {
-    //        List<(int, int, int)> pixels = new List<(int, int, int)>();
-
-    //        for (int i = 0; i < matrix.GetLength(0) - 1; i++)
-    //        {
-    //            for (int j = 0; j < matrix.GetLength(0); j++)
-    //            {
-    //                if (matrix[i, j] == 1) pixels.AddRange(GetLine((int)points[i, 0], (int)points[i, 1], (int)points[i, 2], (int)points[j, 0], (int)points[j, 1], (int)points[j, 2]));
-    //            }
-    //        }
-    //        return pixels;
-    //    }
-
-    //    public static List<(int x, int y, int z)> GetLine(int x0, int y0, int z0, int x1, int y1, int z1)
-    //    {
-    //        List<(int x, int y, int z)> points = new List<(int x, int y, int z)>();
-
-    //        int dx = Math.Abs(x1 - x0);
-    //        int dy = Math.Abs(y1 - y0);
-    //        int dz = Math.Abs(z1 - z0);
-
-    //        int xs = x0 < x1 ? 1 : -1;
-    //        int ys = y0 < y1 ? 1 : -1;
-    //        int zs = z0 < z1 ? 1 : -1;
-
-    //        // Определение ведущей оси
-    //        if (dx >= dy && dx >= dz)
-    //        {
-    //            // Ведущая ось X
-    //            int p1 = 2 * dy - dx;
-    //            int p2 = 2 * dz - dx;
-
-    //            while (x0 != x1)
-    //            {
-    //                x0 += xs;
-    //                if (p1 >= 0)
-    //                {
-    //                    y0 += ys;
-    //                    p1 -= 2 * dx;
-    //                }
-    //                if (p2 >= 0)
-    //                {
-    //                    z0 += zs;
-    //                    p2 -= 2 * dx;
-    //                }
-    //                p1 += 2 * dy;
-    //                p2 += 2 * dz;
-    //                points.Add((x0, y0, z0));
-    //            }
-    //        }
-    //        else if (dy >= dx && dy >= dz)
-    //        {
-    //            // Ведущая ось Y
-    //            int p1 = 2 * dx - dy;
-    //            int p2 = 2 * dz - dy;
-
-    //            while (y0 != y1)
-    //            {
-    //                y0 += ys;
-    //                if (p1 >= 0)
-    //                {
-    //                    x0 += xs;
-    //                    p1 -= 2 * dy;
-    //                }
-    //                if (p2 >= 0)
-    //                {
-    //                    z0 += zs;
-    //                    p2 -= 2 * dy;
-    //                }
-    //                p1 += 2 * dx;
-    //                p2 += 2 * dz;
-    //                points.Add((x0, y0, z0));
-    //            }
-    //        }
-    //        else
-    //        {
-    //            // Ведущая ось Z
-    //            int p1 = 2 * dy - dz;
-    //            int p2 = 2 * dx - dz;
-
-    //            while (z0 != z1)
-    //            {
-    //                z0 += zs;
-    //                if (p1 >= 0)
-    //                {
-    //                    y0 += ys;
-    //                    p1 -= 2 * dz;
-    //                }
-    //                if (p2 >= 0)
-    //                {
-    //                    x0 += xs;
-    //                    p2 -= 2 * dz;
-    //                }
-    //                p1 += 2 * dy;
-    //                p2 += 2 * dx;
-    //                points.Add((x0, y0, z0));
-    //            }
-    //        }
-
-    //        return points;
-    //    }
-
-    //}
-}
+ }
 
 
 public static class TriangleRasterizer
 {
+    static Vector3 CalculateNormal(Vector3 v0, Vector3 v1, Vector3 v2)
+    {
+        Vector3 edge1 = v1 - v0;
+        Vector3 edge2 = v2 - v0;
+        Vector3 normal = Vector3.Cross(edge1, edge2);
+
+        // Корректируем направление вектора
+        if (normal.Z < 0)
+        {
+            normal = -normal;
+        }
+        return  Vector3.Normalize(normal);
+    }
+
+    public static Vector3 CalculateLighting(Vector3 normal, Vector3 lightPos, Vector3 viewPos,
+                                       Vector3 vertexPos, Vector3 ambientColor, Vector3 lightColor,
+                                       float k_a, float k_d, float k_s, float shininess)
+    {
+        // Фоновое освещение
+        Vector3 ambient = k_a * ambientColor;
+
+        // Диффузное освещение
+        Vector3 lightDir = Vector3.Normalize(lightPos - vertexPos);
+        float diff = Math.Max(Vector3.Dot(normal, lightDir), 0.0f);
+        Vector3 diffuse = k_d * diff * lightColor;
+
+        // Зеркальное освещение
+        Vector3 viewDir = Vector3.Normalize(viewPos - vertexPos);
+        Vector3 reflectDir = Vector3.Reflect(-lightDir, normal);
+        float spec = (float)Math.Pow(Math.Max(Vector3.Dot(viewDir, reflectDir), 0.0f), shininess);
+        Vector3 specular = k_s * spec * lightColor;
+
+        // Итоговое освещение
+        Vector3 finalColor = ambient + diffuse + specular;
+        return finalColor;
+    }
+
+    private static Vector3 vector((int, int, int) v)
+    {
+        return new Vector3(v.Item1, v.Item2, v.Item3);
+    }
+
     public static List<(int, int, int, Color)> rasterize(double[,] points, Poligon[] poligons)
     {
         List<(int, int, int, Color)> pixels = new List<(int, int, int, Color)>();
 
-       foreach(Poligon p in poligons)
-       {
+        foreach (Poligon p in poligons)
+        {
             try
             {
                 var v1 = ((int)points[p.V1, 0], (int)points[p.V1, 1], (int)points[p.V1, 2]);
                 var v2 = ((int)points[p.V2, 0], (int)points[p.V2, 1], (int)points[p.V2, 2]);
                 var v3 = ((int)points[p.V3, 0], (int)points[p.V3, 1], (int)points[p.V3, 2]);
-                pixels.AddRange(Rasterize(v1.Item1, v1.Item2, v1.Item3, v2.Item1, v2.Item2, v2.Item3, v3.Item1, v3.Item2, v3.Item3,p.Color));
+                pixels.AddRange(Rasterize(v1.Item1, v1.Item2, v1.Item3, v2.Item1, v2.Item2, v2.Item3, v3.Item1, v3.Item2, v3.Item3, p.Color));
             }
-               catch(Exception ex) { }
-       }
-       return pixels;
+            catch (Exception ex) { }
+        }
+        return pixels;
     }
 
 
@@ -261,6 +198,8 @@ public static class TriangleRasterizer
         if (y1 < y0) { Swap(ref x0, ref y0, ref z0, ref x1, ref y1, ref z1); }
         if (y2 < y0) { Swap(ref x0, ref y0, ref z0, ref x2, ref y2, ref z2); }
         if (y2 < y1) { Swap(ref x1, ref y1, ref z1, ref x2, ref y2, ref z2); }
+
+        Vector3 normal = CalculateNormal(new Vector3(x0, y0, z0), new Vector3(x1, y1, z1), new Vector3(x2, y2, z2));
 
         // Вычисляем градиенты
         float dx1 = (y1 - y0) > 0 ? (float)(x1 - x0) / (y1 - y0) : 0;
@@ -288,8 +227,11 @@ public static class TriangleRasterizer
 
             for (int x = (int)xs; x <= (int)xe; x++)
             {
+
                 float z = zs + ((x - xs) / (xe - xs)) * (ze - zs);
-                points.Add((x, y, (int)Math.Round(z), color0));
+
+                // points.Add((x, y, (int)Math.Round(z), color0));
+                points.Add((x, y, (int)Math.Round(z), calculateLight(normal,x,y, (int)Math.Round(z))));
             }
         }
 
@@ -310,14 +252,33 @@ public static class TriangleRasterizer
             for (int x = (int)xs; x <= (int)xe; x++)
             {
                 float z = zs + ((x - xs) / (xe - xs)) * (ze - zs);
-                points.Add((x, y, (int)Math.Round(z), color0));
+
+                // points.Add((x, y, (int)Math.Round(z), color0));
+                points.Add((x, y, (int)Math.Round(z), calculateLight(normal, x, y, (int)Math.Round(z))));
             }
         }
 
         return points;
     }
 
-    private static void Swap(ref int x1, ref int y1, ref int z1, ref int x2, ref int y2, ref int z2)
+    private static Color calculateLight(Vector3 normal, int x, int y, int z)
+    {
+        Vector3 lightPos = new Vector3(100.0f, 100.0f, 100.0f); // Позиция источника света
+        Vector3 viewPos = new Vector3(1, 0, 0); // Позиция наблюдателя (камеры)
+        Vector3 vertexPos = new Vector3(x, y, z); // Позиция вершины полигона
+        Vector3 ambientColor = new Vector3(0.1f, 10.1f, 0.1f); // Цвет фонового освещения
+        Vector3 lightColor = new Vector3(10.0f, 10.0f, 10.0f); // Цвет света
+
+        float k_a = 8.2f;    //  фоновое освещение
+        float k_d = 10.7f;    //  диффузное освещение
+        float k_s = 6.3f;    //  зеркальное отражение
+        float shininess = 32.0f; //  степень блеска
+
+        Vector3 color = CalculateLighting(normal, lightPos, viewPos, vertexPos, ambientColor, lightColor, k_a, k_d, k_s, shininess);
+        return Color.FromArgb((int)color[0],(int) color[1],(int) color[2]);
+    }
+
+private static void Swap(ref int x1, ref int y1, ref int z1, ref int x2, ref int y2, ref int z2)
     {
         (x1, x2) = (x2, x1);
         (y1, y2) = (y2, y1);

@@ -1,4 +1,5 @@
-﻿using static Graphic1.painter.PainterProect;
+﻿using System.Numerics;
+using static Graphic1.painter.PainterProect;
 
 namespace Graphic1
 {
